@@ -1,0 +1,7 @@
+include ':framework:imagemanager'
+include ':usecases'
+include ':data'
+include ':domain'
+include ':framework:requestmanager'
+include ':app'
+rootProject.name = "MercadoLibreApp"

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MercadoLibreApp</string>
+    <string name="content_description_place_image">description</string>
+    <string name="error_no_available_data">No data available</string>
+</resources>
