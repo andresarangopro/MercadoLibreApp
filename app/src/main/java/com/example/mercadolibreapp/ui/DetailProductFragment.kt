@@ -35,7 +35,7 @@ class DetailProductFragment : Fragment() {
         getViewModel {
             productDetailComponent.detailProductViewModel
         }
-    } 
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
