@@ -16,6 +16,7 @@ import javax.inject.Singleton
 ])
 interface MercadoLibreAppComponent {
     fun inject(module: ProductListBySearchModule):ProductListBySearchComponent
+    fun inject(module:DetailProductModule ):DetailProductComponent
 
     @Component.Factory
     interface Favorite{

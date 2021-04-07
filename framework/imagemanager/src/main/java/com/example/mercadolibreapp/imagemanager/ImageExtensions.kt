@@ -15,7 +15,6 @@ fun ImageView.bindCircularImageUrl(url: String?, @DrawableRes placeholder: Int,
         .load(url)
         .error(errorPlaceholder)
         .placeholder(placeholder)
-        .circleCrop()
         .into(this)
 }
 

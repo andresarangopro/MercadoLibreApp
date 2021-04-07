@@ -3,11 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/productListFragment">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.mercadolibreapp.ui.ProductsListActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_list_products" />
+    <fragment
+        android:id="@+id/detailProductFragment"
+        android:name="com.example.mercadolibreapp.ui.DetailProductFragment"
+        android:label="fragment_detail_product"
+        tools:layout="@layout/fragment_detail_product" />
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.example.mercadolibreapp.ui.ProductListFragment"
+        android:label="ProductListFragment" >
+        <action
+            android:id="@+id/action_productListFragment_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+    </fragment>
 </navigation>

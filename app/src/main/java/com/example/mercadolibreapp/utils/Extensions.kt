@@ -1,6 +1,9 @@
 package com.example.mercadolibreapp.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
@@ -12,8 +15,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mercadolibreapp.MercadoLibreApp
+import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.views.RecyclerViewItemDecoration
 
 fun Context.showLongToast(message: String){
@@ -34,6 +40,11 @@ inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String
         }
     })
 }
+
+inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit) {
+    startActivity(Intent(this, T::class.java).apply(body))
+}
+
 
 fun RecyclerView.setItemDecorationSpacing(padding: Float) {
     addItemDecoration(RecyclerViewItemDecoration(padding.toInt()))

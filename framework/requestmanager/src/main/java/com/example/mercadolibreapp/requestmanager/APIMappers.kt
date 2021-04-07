@@ -8,9 +8,8 @@ import com.example.mercadolibreapp.domain.Shipping
 
 fun ProductResponseServer.toProductDomainList():List<Product> = results.map{
     it.run{
-        Log.d("pr","${it}")
         Product(
-            id?:"0",
+            id,
             title,
             seller.toDomainSeller(),
             price,

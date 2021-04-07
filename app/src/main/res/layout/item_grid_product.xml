@@ -7,6 +7,11 @@
         <variable
             name="product"
             type="com.example.mercadolibreapp.domain.Product" />
+
+        <variable
+            name="productListViewModel"
+            type="com.example.mercadolibreapp.presentation.ProductListViewModel" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -21,23 +26,37 @@
             android:orientation="vertical">
 
             <ImageView
-                style="@style/ProductGridItemImage"
                 android:id="@+id/product_image"
+                style="@style/ProductGridItemImage"
                 android:contentDescription="@string/content_description_place_image"
                 app:layout_constraintBottom_toBottomOf="@id/product_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@mipmap/ic_launcher_round"/>
+                app:layout_constraintVertical_bias="1.0"
+                tools:src="@mipmap/ic_launcher_round" />
 
             <TextView
-                style="@style/ProductListItemName"
                 android:id="@+id/product_name"
+                style="@style/ProductListItemName"
                 android:text="@{product.title}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/product_price"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="VideoJuegos"/>
+
+            <TextView
+                android:id="@+id/product_price"
+                style="@style/ProductListItemName"
+                android:text="@{Integer.toString(product.price)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="$000" />
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

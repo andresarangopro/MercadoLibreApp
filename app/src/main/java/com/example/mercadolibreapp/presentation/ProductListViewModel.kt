@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mercadolibreapp.domain.Product
 import com.example.mercadolibreapp.usecases.GetProductsBySearchUseCase
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
 
 class ProductListViewModel(
     private val getProductsBySearchUsesCase: GetProductsBySearchUseCase
@@ -34,6 +36,11 @@ class ProductListViewModel(
         private const val SIZE = 20
     }
 
+    fun setSearch(search: String) {
+        _productInput.value = search
+    }
+
+
     sealed class ProductListNavigation(){
         data class ShowProductError(val error: Throwable): ProductListNavigation()
         data class ShowProductList(val productList:List<Product>): ProductListNavigation()
@@ -59,6 +66,10 @@ class ProductListViewModel(
                 && totalItemCount >= SIZE
     }
 
+    fun toPrice(int:Int):String{
+        return "Precio: $${int} "
+    }
+
     fun onGetProductsBySearch(productInput:String, limit:Int){
         disposable.add(
             getProductsBySearchUsesCase
@@ -67,13 +78,11 @@ class ProductListViewModel(
                     _events.value  = Event(ProductListNavigation.ShowLoading)
                 }
                 .subscribe({ productList ->
-                    Log.d("Products","${productList}")
                     _events.value  = Event(ProductListNavigation.HideLoading)
                     _events.value  = Event(ProductListNavigation.ShowProductList(productList))
 
                 }, { error ->
                     //isLastPage = true
-                    Log.d("Products","${error}")
                     _events.value  = Event(ProductListNavigation.HideLoading)
                     _events.value  = Event(ProductListNavigation.ShowProductError(error))
                 })
@@ -81,3 +90,4 @@ class ProductListViewModel(
     }
 
 }
+

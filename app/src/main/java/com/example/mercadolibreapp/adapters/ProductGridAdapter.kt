@@ -21,6 +21,12 @@ class ProductGridAdapter(
         notifyDataSetChanged()
     }
 
+    fun newSearchData(newData: List<Product>) {
+        placeList.clear()
+        placeList.addAll(newData)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceGridViewHolder(
             parent.bindingInflate(R.layout.item_grid_product, false),
