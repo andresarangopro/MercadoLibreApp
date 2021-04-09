@@ -1,5 +1,24 @@
 # MercadoLibreApp
 
+Éste es el proyecto prueba de mercado libre, con esta app se puede buscar un producto y ver su detalle. 
+
+## Experiencia de usuario
+
+Este proyecto contiene las siguientes características.
+
+* Una pantalla de inicio con un menú al pie de la pantalla con las siguientes opciones:
+    * Una barra de busqueda de productos, luego de buscar en esta:
+    * Un listado de los productos.
+* Una pantalla de detalle del producto que muestra información adicional (precio, nombre, cantidad disponible, dirección del vendedor).
+
+## Capturas de pantalla
+
+<p align="center">
+  <img width="270" height="555" src="screens/screenListProducts.jpg">
+  <img width="270" height="555" src="screenshots/screenDetailProduct.jpg">
+</p>
+
+
 ## Guía de implementación
 
 ### Trabajando con la API de Mercado Libre
