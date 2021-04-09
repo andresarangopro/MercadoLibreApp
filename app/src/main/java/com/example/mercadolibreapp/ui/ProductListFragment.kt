@@ -10,8 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.adapters.ProductGridAdapter
 import com.example.mercadolibreapp.databinding.FragmentProductListBinding
@@ -19,13 +20,14 @@ import com.example.mercadolibreapp.di.ProductListBySearchComponent
 import com.example.mercadolibreapp.di.ProductListBySearchModule
 import com.example.mercadolibreapp.domain.Product
 import com.example.mercadolibreapp.parcelable.toProductParcelable
+import com.example.mercadolibreapp.presentation.Event
 import com.example.mercadolibreapp.presentation.ProductListViewModel
 import com.example.mercadolibreapp.utils.*
 import kotlinx.android.synthetic.main.activity_list_products.*
 import kotlinx.android.synthetic.main.fragment_product_list.*
 
 
-class ProductListFragment : Fragment(),Interactions.OnProductListFragmentListener {
+class ProductListFragment : Fragment() {
 
     //private lateinit var binding: ActivityListProductsBinding
     private lateinit var productListBySearchComponent: ProductListBySearchComponent
@@ -37,7 +39,6 @@ class ProductListFragment : Fragment(),Interactions.OnProductListFragmentListene
             productListBySearchComponent.productListBySearchViewModel
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +76,13 @@ class ProductListFragment : Fragment(),Interactions.OnProductListFragmentListene
 
         //Navigation.findNavController(this,R.id.navigation_graph).navigate()
         productGridAdapter = ProductGridAdapter { product ->
-            openProductDetail(product)
+            listener.openProductDetail(product)
 
         }
         productGridAdapter.setHasStableIds(true)
 
         rvPlaceList.run{
-            // addOnScrollListener(onScrollListener)
+            addOnScrollListener(onScrollListener)
             setItemDecorationSpacing(resources.getDimension(R.dimen.list_item_padding))
             adapter = productGridAdapter
         }
@@ -92,9 +93,15 @@ class ProductListFragment : Fragment(),Interactions.OnProductListFragmentListene
 
         searchProduct.onQueryTextChanged {
             Log.d("ProductChange","${it}")
+            productListViewModel.setSearch(it)
+            productListViewModel.setterCurrentSize()
             productListViewModel.onGetProductsBySearch(it,10)
         }
 
+        productListViewModel.events.observe(viewLifecycleOwner, Observer(this::validateEvents))
+    }
+
+    private fun validateEvents(event: Event<ProductListViewModel.ProductListNavigation>){
         productListViewModel.events.observe(
             viewLifecycleOwner, Observer { events ->
                 events?.getContentIfNotHandled()?.let{navigation->
@@ -112,15 +119,31 @@ class ProductListFragment : Fragment(),Interactions.OnProductListFragmentListene
                             srwProductList.isRefreshing = true
                         }
                     }
-
                 }
             }
         )
     }
 
-    override fun openProductDetail(product: Product) {
+    private val onScrollListener: RecyclerView.OnScrollListener by lazy {
+        object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as GridLayoutManager
+                val visibleItemCount: Int = layoutManager.childCount
+                val totalItemCount: Int = layoutManager.itemCount
+                val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+
+
+                productListViewModel.onLoadMoreItems(visibleItemCount, firstVisibleItemPosition, totalItemCount)
+            }
+        }
+    }
+
+
+   /* override fun openProductDetail(product: Product) {
         val bundle = Bundle()
         bundle.putParcelable(Constants.EXTRA_PRODUCT,product.toProductParcelable())
         findNavController().navigate(R.id.detailProductFragment,bundle)
-    }
+    }*/
 }

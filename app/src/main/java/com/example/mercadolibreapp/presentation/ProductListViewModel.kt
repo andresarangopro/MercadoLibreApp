@@ -33,11 +33,15 @@ class ProductListViewModel(
     }
 
     companion object{
-        private const val SIZE = 20
+        private const val SIZE = 10
     }
 
     fun setSearch(search: String) {
         _productInput.value = search
+    }
+
+    fun setterCurrentSize() {
+        currentSize = 10
     }
 
 

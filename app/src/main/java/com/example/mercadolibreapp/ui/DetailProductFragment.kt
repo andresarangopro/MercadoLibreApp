@@ -1,23 +1,21 @@
 package com.example.mercadolibreapp.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.databinding.FragmentDetailProductBinding
-import com.example.mercadolibreapp.databinding.FragmentProductListBinding
 import com.example.mercadolibreapp.di.DetailProductComponent
 import com.example.mercadolibreapp.di.DetailProductModule
 import com.example.mercadolibreapp.domain.Product
 import com.example.mercadolibreapp.imagemanager.bindCircularImageUrl
 import com.example.mercadolibreapp.parcelable.ProductParcelable
 import com.example.mercadolibreapp.parcelable.toProductDomain
-import com.example.mercadolibreapp.parcelable.toProductParcelable
 import com.example.mercadolibreapp.presentation.DetailProductViewModel
 import com.example.mercadolibreapp.utils.Constants
 import com.example.mercadolibreapp.utils.app
@@ -25,7 +23,7 @@ import com.example.mercadolibreapp.utils.getViewModel
 import kotlinx.android.synthetic.main.fragment_detail_product.*
 
 
-class DetailProductFragment : Fragment() {
+class DetailProductFragment : Fragment(),Interactions.IOnBackPressed {
 
     private lateinit var productDetailComponent: DetailProductComponent
     private lateinit var binding: FragmentDetailProductBinding
@@ -39,8 +37,7 @@ class DetailProductFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        setHasOptionsMenu(true)
         product = requireArguments().getParcelable<ProductParcelable>(Constants.EXTRA_PRODUCT)!!.toProductDomain()
         productDetailComponent = requireContext()!!.app.component.inject(DetailProductModule(product))
         detailProductViewModel.productValues.observe(this, Observer(this::loadCharacter))
@@ -62,6 +59,16 @@ class DetailProductFragment : Fragment() {
         }.root
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            getActivity()?.onBackPressed();
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
     private fun loadCharacter(product: Product){
         binding.productImage.bindCircularImageUrl(
             url = product.thumbnail,
@@ -77,6 +84,10 @@ class DetailProductFragment : Fragment() {
         binding.productCityName = product.address.cityName
         binding.productShippingType = if (product.shipping.freeShipping )"Gratis" else "Costo"
 
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
     }
 
 }

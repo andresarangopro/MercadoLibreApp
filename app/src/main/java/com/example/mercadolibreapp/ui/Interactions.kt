@@ -8,4 +8,8 @@ interface Interactions {
     interface OnProductListFragmentListener {
         fun openProductDetail(product: Product)
     }
+
+    interface IOnBackPressed {
+        fun onBackPressed(): Boolean
+    }
 }
