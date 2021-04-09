@@ -6,7 +6,7 @@
 
 Este proyecto contiene las siguientes características.
 
-* Una pantalla de inicio con un menú al pie de la pantalla con las siguientes opciones:
+* Una pantalla de inicio con las siguientes opciones:
     * Una barra de busqueda de productos, luego de buscar en esta:
     * Un listado de los productos.
 * Una pantalla de detalle del producto que muestra información adicional (precio, nombre, cantidad disponible, dirección del vendedor).
