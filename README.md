@@ -15,7 +15,7 @@ Este proyecto contiene las siguientes características.
 
 <p align="center">
   <img width="270" height="555" src="screens/screenListProducts.jpg">
-  <img width="270" height="555" src="screenshots/screenDetailProduct.jpg">
+  <img width="270" height="555" src="screens/screenDetailProduct.jpg">
 </p>
 
 
